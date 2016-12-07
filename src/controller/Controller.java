@@ -1,6 +1,7 @@
 package controller;
 
 
+import model.Model;
 import view.MainView;
 import view.SessRedactorView;
 import view.StartView;
@@ -8,16 +9,19 @@ import view.StartView;
 /**
  * Created by Андрей on 19.10.2016.
  */
-public class Controller
+public class Controller implements EventListener
 {
     private StartView startView;
     private MainView mainView;
     private SessRedactorView sessRedactorView;
+    private Model model;
 
     public Controller()
     {
+        model = new Model();
         startView = new StartView(this);
         startView.init();
+
     }
 
     public static void main(String[] args)
@@ -53,5 +57,14 @@ public class Controller
     public void setSessRedactorView(SessRedactorView sessRedactorView)
     {
         this.sessRedactorView = sessRedactorView;
+    }
+
+    @Override
+    public void createOrganization() {
+        model.createOrganization();
+    }
+
+    public Model getModel() {
+        return model;
     }
 }
