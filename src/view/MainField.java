@@ -24,9 +24,8 @@ public class MainField extends JPanel {
         mainView.setLayout(new BorderLayout());
 
         JLabel labelorg = new JLabel("");
-        labelorg.setText(mainView.getController().getModel().getOrg().getName());
-        labelorg.setSize(150, 25);
-        labelorg.setLocation(300, 25);
+        labelorg.setSize(720, 25);
+        labelorg.setLocation(300, 5);
         add(labelorg);
 
         // список всех месяцев
@@ -37,6 +36,8 @@ public class MainField extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 JComboBox box = (JComboBox) e.getSource();
                 String item = (String) box.getSelectedItem();
+                labelorg.setText(mainView.getController().getModel().getOrg().getName() +
+                " | " + item);
             }
         });
 
