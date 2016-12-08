@@ -23,7 +23,7 @@ public class MainField extends JPanel {
     private MainTableModel tModel;
     private JTable jTable;
     private JTableHeader jTableHeader;
-    private JButton btnAdd;
+    private JButton btnAdd, btnRemoveTab;
     private ActionListener listenerAdd;
 
     public MainField(final MainView mainView) {
@@ -47,6 +47,9 @@ public class MainField extends JPanel {
                 btnAdd.removeActionListener(listenerAdd);
                 labelorg.setText(mainView.getController().getModel().getOrg().getName() +
                         " | " + item);
+                if (jTable != null) {
+                    remove(jTable);
+                }
                 initTable(item);
             }
         });
@@ -96,7 +99,7 @@ public class MainField extends JPanel {
         add(btnAddTab);
 
         //соответсвенно удаление последнего месяца
-        JButton btnRemoveTab = new JButton("Удалить месяц");
+        btnRemoveTab = new JButton("Удалить месяц");
         btnRemoveTab.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -130,11 +133,9 @@ public class MainField extends JPanel {
                 add(jTableHeader);
 
                 //назначаю кнопке добавить человека действие
-                listenerAdd = new ActionListener()
-                {
+                listenerAdd = new ActionListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e)
-                    {
+                    public void actionPerformed(ActionEvent e) {
                         mainView.getController().addHuman(h);
                         tModel.fireTableDataChanged();
                     }
