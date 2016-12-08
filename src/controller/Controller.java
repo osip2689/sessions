@@ -1,6 +1,7 @@
 package controller;
 
 
+import model.Humans;
 import model.Model;
 import view.MainView;
 import view.SessRedactorView;
@@ -62,6 +63,16 @@ public class Controller implements EventListener
     @Override
     public void createOrganization() {
         model.createOrganization();
+    }
+
+    @Override
+    public void addHuman(Humans h) {
+        model.addHuman(h);
+    }
+
+    @Override
+    public void addSession() {
+        model.addSession();
     }
 
     public Model getModel() {

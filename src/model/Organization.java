@@ -11,8 +11,14 @@ public class Organization {
     private String adress;
     private String inn;
     private String kpp;
+    private List<Session> sessions = new ArrayList<>();
 
-    private List<Humans> list = new ArrayList<>();
+    public List<Humans> list = new ArrayList<>();
+    {
+        Humans h = new Humans();
+        h.setNamber("11.2016");
+        list.add(h);
+    }
 
     public String getName() {
         return name;
@@ -52,5 +58,13 @@ public class Organization {
 
     public void setList(List<Humans> list) {
         this.list = list;
+    }
+
+    public List<Session> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(List<Session> sessions) {
+        this.sessions = sessions;
     }
 }

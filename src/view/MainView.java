@@ -10,6 +10,7 @@ import javax.swing.*;
 public class MainView extends JFrame
 {
     private Controller controller;
+    private MainField mainField;
 
     public MainView(Controller controller)
     {
@@ -20,7 +21,8 @@ public class MainView extends JFrame
 
     public void init()
     {
-        add(new MainField(this));
+        mainField = new MainField(this);
+        add(mainField);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1280, 720);
         setResizable(false);
@@ -32,5 +34,9 @@ public class MainView extends JFrame
     public Controller getController()
     {
         return controller;
+    }
+
+    public MainField getMainField() {
+        return mainField;
     }
 }

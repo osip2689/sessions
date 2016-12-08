@@ -2,9 +2,11 @@ package view;
 
 import model.Human;
 import model.Humans;
+import model.MainTableModel;
 import model.Organization;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +18,13 @@ import java.util.Date;
  * Created by Андрей on 09.11.2016.
  */
 public class MainField extends JPanel {
+
     private MainView mainView;
+    private MainTableModel tModel;
+    private JTable jTable;
+    private JTableHeader jTableHeader;
+    private JButton btnAdd;
+    private ActionListener listenerAdd;
 
     public MainField(final MainView mainView) {
         this.mainView = mainView;
@@ -36,12 +44,14 @@ public class MainField extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 JComboBox box = (JComboBox) e.getSource();
                 String item = (String) box.getSelectedItem();
+                btnAdd.removeActionListener(listenerAdd);
                 labelorg.setText(mainView.getController().getModel().getOrg().getName() +
-                " | " + item);
+                        " | " + item);
+                initTable(item);
             }
         });
 
-        comboBox.setLocation(10, 25);
+        comboBox.setLocation(10, 30);
         comboBox.setSize(150, 25);
         add(comboBox);
 
@@ -54,9 +64,15 @@ public class MainField extends JPanel {
                 mainView.setEnabled(false);
             }
         });
-        btnAddSess.setLocation(350, 650);
+        btnAddSess.setLocation(350, 660);
         btnAddSess.setSize(90, 25);
         add(btnAddSess);
+
+        //кнопка добалвяющая человека
+        btnAdd = new JButton("Добавить");
+        btnAdd.setLocation(170, 660);
+        btnAdd.setSize(90, 25);
+        add(btnAdd);
 
         //новый месяц: добавляется в лист организации новый (!пока)пустой месяц
         JButton btnAddTab = new JButton("Новый месяц");
@@ -92,8 +108,43 @@ public class MainField extends JPanel {
                 }
             }
         });
-        btnRemoveTab.setLocation(10, 125);
+        btnRemoveTab.setLocation(10, 120);
         btnRemoveTab.setSize(150, 25);
         add(btnRemoveTab);
+    }
+
+    //метод который рисует таблицу при выборе из списка
+    public void initTable(String item) {
+        for (Humans h : mainView.getController().getModel().getOrg().getList()) {
+            if (h.getNamber().equals(item)) {
+                tModel = new MainTableModel(h);
+                jTable = new JTable(tModel);
+                jTableHeader = jTable.getTableHeader();
+                jTableHeader.setLocation(170, 30);
+                jTableHeader.setVisible(true);
+                jTableHeader.setSize(1080, 20);
+                jTable.setSize(1080, 600);
+                jTable.setVisible(true);
+                jTable.setLocation(170, 50);
+                add(jTable);
+                add(jTableHeader);
+
+                //назначаю кнопке добавить человека действие
+                listenerAdd = new ActionListener()
+                {
+                    @Override
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        mainView.getController().addHuman(h);
+                        tModel.fireTableDataChanged();
+                    }
+                };
+                btnAdd.addActionListener(listenerAdd);
+            }
+        }
+    }
+
+    public MainTableModel gettModel() {
+        return tModel;
     }
 }

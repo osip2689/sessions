@@ -1,6 +1,10 @@
 package view;
 
+import model.SessTableModel;
+
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,9 +13,27 @@ import java.awt.event.ActionListener;
  */
 public class SessRedactorField extends JPanel
 {
+    private SessRedactorView sessRedactorView;
+    private SessTableModel tModel;
+    private JTable jTable;
+    private JTableHeader jTableHeader;
+
     public SessRedactorField(final SessRedactorView sessRedactorView)
     {
-        setLayout(null);
+        this.sessRedactorView = sessRedactorView;
+        this.setLayout(null);
+        sessRedactorView.setLayout(new BorderLayout());
+        tModel = new SessTableModel(sessRedactorView.getController().getModel().getOrg());
+        jTable = new JTable(tModel);
+        jTableHeader = jTable.getTableHeader();
+        jTableHeader.setLocation(50, 20);
+        jTableHeader.setSize(700, 20);
+        jTableHeader.setVisible(true);
+        add(jTableHeader);
+        jTable.setLocation(50, 40);
+        jTable.setSize(700, 300);
+        jTable.setVisible(true);
+        add(jTable);
         JButton btnSave = new JButton("Сохранить");
         btnSave.addActionListener(new ActionListener()
         {
@@ -32,7 +54,10 @@ public class SessRedactorField extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-
+                sessRedactorView.getController().addSession();
+                //System.out.println(sessRedactorView.getController().getMainView().getMainField().gettModel());
+                //sessRedactorView.getController().getMainView().getMainField().gettModel().fireTableStructureChanged();
+                tModel.fireTableDataChanged();
             }
         });
         btnAdd.setLocation(50, 530);
