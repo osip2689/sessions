@@ -20,6 +20,7 @@ public class SessTableModel extends AbstractTableModel
     {
         if (organization.getSessions().size() != 0)
         {
+            System.out.println(organization.getSessions().size());
             return organization.getSessions().size();
         } else return 0;
     }

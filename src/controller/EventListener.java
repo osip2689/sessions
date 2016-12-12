@@ -10,4 +10,5 @@ public interface EventListener {
     void createOrganization();
     void addHuman(Humans h);
     void addSession();
+    void addSessionForAll();
 }

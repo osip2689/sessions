@@ -46,7 +46,9 @@ public class MainTableModel extends AbstractTableModel {
             case 1:
                 return "ФИО";
             default:
-                return humans.getListHum().get(0).getListSess().get(column - 2).getName();
+                if (humans.getListHum().size() != 0) {
+                    return humans.getListHum().get(0).getListSess().get(column - 2).getName();
+                } else return null;
         }
     }
 
@@ -74,5 +76,9 @@ public class MainTableModel extends AbstractTableModel {
             default:
                 humans.getListHum().get(r).getListSess().get(c - 2).setCount((String) aValue);
         }
+    }
+
+    public Humans getHumans() {
+        return humans;
     }
 }

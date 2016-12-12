@@ -28,7 +28,7 @@ public class MainField extends JPanel {
 
     public MainField(final MainView mainView) {
         this.mainView = mainView;
-        this.setLayout(null);
+        setLayout(null);
         mainView.setLayout(new BorderLayout());
 
         JLabel labelorg = new JLabel("");
@@ -44,7 +44,6 @@ public class MainField extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 JComboBox box = (JComboBox) e.getSource();
                 String item = (String) box.getSelectedItem();
-                btnAdd.removeActionListener(listenerAdd);
                 labelorg.setText(mainView.getController().getModel().getOrg().getName() +
                         " | " + item);
                 if (jTable != null) {
@@ -64,7 +63,7 @@ public class MainField extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new SessRedactorView(mainView.getController());
-                mainView.setEnabled(false);
+                //mainView.setEnabled(false);
             }
         });
         btnAddSess.setLocation(350, 660);
@@ -87,6 +86,7 @@ public class MainField extends JPanel {
                 humans.setListHum(new ArrayList<Human>());
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM.yyyy");
                 humans.setNamber(dateFormat.format(new Date()) + "");
+                //проверяю есть ли месяц такой же месяц, если нет то добавляю
                 if (!mainView.getController().getModel()
                         .checkListForHumans((ArrayList<Humans>) org.getList(), humans.getNamber())) {
                     mainView.getController().getModel().getOrg().getList().add(humans);
@@ -131,16 +131,19 @@ public class MainField extends JPanel {
                 jTable.setLocation(170, 50);
                 add(jTable);
                 add(jTableHeader);
-
                 //назначаю кнопке добавить человека действие
                 listenerAdd = new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         mainView.getController().addHuman(h);
                         tModel.fireTableDataChanged();
+                        tModel.fireTableStructureChanged();
                     }
                 };
                 btnAdd.addActionListener(listenerAdd);
+
+                mainView.setMainField(this);
+                tModel.fireTableStructureChanged();
             }
         }
     }

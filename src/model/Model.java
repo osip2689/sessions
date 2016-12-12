@@ -45,8 +45,9 @@ public class Model {
         Human human = new Human();
         human.setId(h.getListHum().size() + 1);
         if (org.getSessions().size() != 0) {
-            human.setListSess(org.getSessions());
+            human.setListSess(new ArrayList<Session>());
             for (int i = 0; i < org.getSessions().size(); i++) {
+                human.getListSess().add(new Session());
                 human.getListSess().get(i).setName(org.getSessions().get(i).getName());
                 human.getListSess().get(i).setPrice(org.getSessions().get(i).getPrice());
             }
@@ -55,11 +56,28 @@ public class Model {
     }
 
     public void addSession() {
-        for (Humans humans : org.getList()) {
+        for (int i = 0; i < org.getList().size(); i++)
+        {
+            for (int j = 0; j < org.getList().get(i).getListHum().size(); j++)
+            {
+                org.getList().get(i).getListHum().get(j).getListSess().add(new Session());
+            }
+        }
+        org.setSessions(org.getList().get(0).getListHum().get(0).getListSess());
+        /*for (Humans humans : org.getList()) {
             for (Human human : humans.getListHum()) {
                 human.getListSess().add(new Session());
             }
         }
-        org.getSessions().add(new Session());
+        org.setSessions(org.getList().get(0).getListHum().get(0).getListSess());*/
+    }
+
+    public void addSessionForAll() {
+        Session session = org.getSessions().get(org.getSessions().size() - 1);
+        for (Humans humans : org.getList()) {
+            for (Human human : humans.getListHum()) {
+                human.getListSess().add(session);
+            }
+        }
     }
 }

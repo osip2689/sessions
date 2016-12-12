@@ -40,6 +40,7 @@ public class SessRedactorField extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                sessRedactorView.getController().getMainView().getMainField().gettModel().fireTableStructureChanged();
                 sessRedactorView.getController().getMainView().setEnabled(true);
                 sessRedactorView.dispose();
             }
@@ -55,8 +56,7 @@ public class SessRedactorField extends JPanel
             public void actionPerformed(ActionEvent e)
             {
                 sessRedactorView.getController().addSession();
-                //System.out.println(sessRedactorView.getController().getMainView().getMainField().gettModel());
-                //sessRedactorView.getController().getMainView().getMainField().gettModel().fireTableStructureChanged();
+                //sessRedactorView.getController().addSessionForAll();
                 tModel.fireTableDataChanged();
             }
         });

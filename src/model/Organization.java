@@ -15,9 +15,9 @@ public class Organization {
 
     public List<Humans> list = new ArrayList<>();
     {
-        Humans h = new Humans();
+        /*Humans h = new Humans();
         h.setNamber("11.2016");
-        list.add(h);
+        list.add(h);*/
     }
 
     public String getName() {

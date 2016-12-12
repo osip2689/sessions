@@ -75,6 +75,11 @@ public class Controller implements EventListener
         model.addSession();
     }
 
+    @Override
+    public void addSessionForAll() {
+        model.addSessionForAll();
+    }
+
     public Model getModel() {
         return model;
     }
