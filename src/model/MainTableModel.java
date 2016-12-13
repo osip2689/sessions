@@ -6,10 +6,12 @@ import javax.swing.table.AbstractTableModel;
  * Created by Андрей on 08.12.2016.
  */
 public class MainTableModel extends AbstractTableModel {
+    private Organization organization;
     private Humans humans;
 
-    public MainTableModel(Humans humans) {
+    public MainTableModel(Organization organization, Humans humans) {
         super();
+        this.organization = organization;
         this.humans = humans;
     }
 
@@ -47,7 +49,7 @@ public class MainTableModel extends AbstractTableModel {
                 return "ФИО";
             default:
                 if (humans.getListHum().size() != 0) {
-                    return humans.getListHum().get(0).getListSess().get(column - 2).getName();
+                    return organization.getList().get(0).getListHum().get(0).getListSess().get(column - 2).getName();
                 } else return null;
         }
     }

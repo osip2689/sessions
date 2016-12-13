@@ -71,13 +71,13 @@ public class Controller implements EventListener
     }
 
     @Override
-    public void addSession() {
-        model.addSession();
+    public void removeHuman(Humans h) {
+        model.removeHumans(h);
     }
 
     @Override
-    public void addSessionForAll() {
-        model.addSessionForAll();
+    public void addSession() {
+        model.addSession();
     }
 
     public Model getModel() {

@@ -56,20 +56,20 @@ public class Model {
     }
 
     public void addSession() {
-        for (int i = 0; i < org.getList().size(); i++)
+        /*for (int i = 0; i < org.getList().size(); i++)
         {
             for (int j = 0; j < org.getList().get(i).getListHum().size(); j++)
             {
                 org.getList().get(i).getListHum().get(j).getListSess().add(new Session());
             }
         }
-        org.setSessions(org.getList().get(0).getListHum().get(0).getListSess());
-        /*for (Humans humans : org.getList()) {
+        org.setSessions(org.getList().get(0).getListHum().get(0).getListSess());*/
+        for (Humans humans : org.getList()) {
             for (Human human : humans.getListHum()) {
                 human.getListSess().add(new Session());
             }
         }
-        org.setSessions(org.getList().get(0).getListHum().get(0).getListSess());*/
+        org.setSessions(org.getList().get(0).getListHum().get(0).getListSess());
     }
 
     public void addSessionForAll() {
@@ -79,5 +79,8 @@ public class Model {
                 human.getListSess().add(session);
             }
         }
+    }
+
+    public void removeHumans(Humans h) {
     }
 }

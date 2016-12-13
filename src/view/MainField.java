@@ -23,8 +23,8 @@ public class MainField extends JPanel {
     private MainTableModel tModel;
     private JTable jTable;
     private JTableHeader jTableHeader;
-    private JButton btnAdd, btnRemoveTab;
-    private ActionListener listenerAdd;
+    private JButton btnAdd, btnRemoveTab, btnRemoveHuman;
+    private ActionListener listenerAdd, listenerRemove;
 
     public MainField(final MainView mainView) {
         this.mainView = mainView;
@@ -46,8 +46,10 @@ public class MainField extends JPanel {
                 String item = (String) box.getSelectedItem();
                 labelorg.setText(mainView.getController().getModel().getOrg().getName() +
                         " | " + item);
+                //если таблица существует - то удаляю и инициализирую снова
                 if (jTable != null) {
                     remove(jTable);
+                    remove(jTableHeader);
                 }
                 initTable(item);
             }
@@ -63,10 +65,10 @@ public class MainField extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new SessRedactorView(mainView.getController());
-                //mainView.setEnabled(false);
+                mainView.setEnabled(false);
             }
         });
-        btnAddSess.setLocation(350, 660);
+        btnAddSess.setLocation(400, 660);
         btnAddSess.setSize(90, 25);
         add(btnAddSess);
 
@@ -75,6 +77,12 @@ public class MainField extends JPanel {
         btnAdd.setLocation(170, 660);
         btnAdd.setSize(90, 25);
         add(btnAdd);
+
+        //кнопка удаляющая человека
+        btnRemoveHuman = new JButton("Удалить");
+        btnRemoveHuman.setLocation(285, 660);
+        btnRemoveHuman.setSize(90, 25);
+        add(btnRemoveHuman);
 
         //новый месяц: добавляется в лист организации новый (!пока)пустой месяц
         JButton btnAddTab = new JButton("Новый месяц");
@@ -120,7 +128,7 @@ public class MainField extends JPanel {
     public void initTable(String item) {
         for (Humans h : mainView.getController().getModel().getOrg().getList()) {
             if (h.getNamber().equals(item)) {
-                tModel = new MainTableModel(h);
+                tModel = new MainTableModel(mainView.getController().getModel().getOrg(),h);
                 jTable = new JTable(tModel);
                 jTableHeader = jTable.getTableHeader();
                 jTableHeader.setLocation(170, 30);
@@ -131,7 +139,17 @@ public class MainField extends JPanel {
                 jTable.setLocation(170, 50);
                 add(jTable);
                 add(jTableHeader);
-                //назначаю кнопке добавить человека действие
+                //удаляю прошлое действие кнопки и назначаю новое добавить человека
+                btnAdd.removeActionListener(listenerAdd);
+                btnRemoveHuman.removeActionListener(listenerRemove);
+                listenerRemove = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        mainView.getController().removeHuman(h);
+                        tModel.fireTableDataChanged();
+                        tModel.fireTableStructureChanged();
+                    }
+                };
                 listenerAdd = new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
