@@ -10,15 +10,13 @@ import view.StartView;
 /**
  * Created by Андрей on 19.10.2016.
  */
-public class Controller implements EventListener
-{
+public class Controller implements EventListener {
     private StartView startView;
     private MainView mainView;
     private SessRedactorView sessRedactorView;
     private Model model;
 
-    public Controller()
-    {
+    public Controller() {
         model = new Model();
         startView = new StartView(this);
         startView.init();
@@ -71,8 +69,8 @@ public class Controller implements EventListener
     }
 
     @Override
-    public void removeHuman(Humans h) {
-        model.removeHumans(h);
+    public void removeHuman(Humans h, String s) {
+        model.removeHumans(h, s);
     }
 
     @Override

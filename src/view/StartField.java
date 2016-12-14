@@ -14,7 +14,6 @@ import java.util.*;
 public class StartField extends JPanel {
     private StartView startView;
 
-
     public StartField(final StartView startView) {
         this.startView = startView;
         this.setLayout(null);
@@ -65,7 +64,7 @@ public class StartField extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                startView.getController().getModel().createOrganization();
+                startView.getController().createOrganization();
                 startView.getController().getModel().getOrg().setName(name.getText());
                 startView.getController().getModel().getOrg().setAdress(adress.getText());
                 startView.getController().getModel().getOrg().setInn(inn.getText());
@@ -80,13 +79,12 @@ public class StartField extends JPanel {
                 MainView mainView = new MainView(startView.getController());
                 mainView.init();
                 startView.dispose();
-
-                //System.out.print(startView.getController().getModel().getOrg().getList().size());
             }
         });
         ok.setLocation(385, 245);
         ok.setSize(90, 25);
         add(ok);
+
         JButton cancel = new JButton("Отмена");
         cancel.addActionListener(new ActionListener() {
             @Override

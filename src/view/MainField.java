@@ -125,8 +125,11 @@ public class MainField extends JPanel {
     }
 
     //метод который рисует таблицу при выборе из списка
+    //и назначает слушателей копкам "Добавить" и "Удалить"
     public void initTable(String item) {
         for (Humans h : mainView.getController().getModel().getOrg().getList()) {
+
+            //выбираю нужную нам таблицу и иннициализирую ее
             if (h.getNamber().equals(item)) {
                 tModel = new MainTableModel(mainView.getController().getModel().getOrg(),h);
                 jTable = new JTable(tModel);
@@ -139,13 +142,17 @@ public class MainField extends JPanel {
                 jTable.setLocation(170, 50);
                 add(jTable);
                 add(jTableHeader);
-                //удаляю прошлое действие кнопки и назначаю новое добавить человека
+                //удаляю прошлое действие кнопкок
                 btnAdd.removeActionListener(listenerAdd);
                 btnRemoveHuman.removeActionListener(listenerRemove);
+
+                //назначаю новые слушатели для кнопок
                 listenerRemove = new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        mainView.getController().removeHuman(h);
+                        mainView.setEnabled(false);
+                        //вызов функции удаления человека
+                        new RemoveHumanView(mainView.getController(), h);
                         tModel.fireTableDataChanged();
                         tModel.fireTableStructureChanged();
                     }
@@ -158,9 +165,13 @@ public class MainField extends JPanel {
                         tModel.fireTableStructureChanged();
                     }
                 };
-                btnAdd.addActionListener(listenerAdd);
 
+                btnAdd.addActionListener(listenerAdd);
+                btnRemoveHuman.addActionListener(listenerRemove);
+
+                //установка нужного поля для просмотрщика
                 mainView.setMainField(this);
+
                 tModel.fireTableStructureChanged();
             }
         }

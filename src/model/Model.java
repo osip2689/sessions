@@ -56,14 +56,7 @@ public class Model {
     }
 
     public void addSession() {
-        /*for (int i = 0; i < org.getList().size(); i++)
-        {
-            for (int j = 0; j < org.getList().get(i).getListHum().size(); j++)
-            {
-                org.getList().get(i).getListHum().get(j).getListSess().add(new Session());
-            }
-        }
-        org.setSessions(org.getList().get(0).getListHum().get(0).getListSess());*/
+
         for (Humans humans : org.getList()) {
             for (Human human : humans.getListHum()) {
                 human.getListSess().add(new Session());
@@ -72,15 +65,24 @@ public class Model {
         org.setSessions(org.getList().get(0).getListHum().get(0).getListSess());
     }
 
-    public void addSessionForAll() {
-        Session session = org.getSessions().get(org.getSessions().size() - 1);
-        for (Humans humans : org.getList()) {
-            for (Human human : humans.getListHum()) {
-                human.getListSess().add(session);
-            }
-        }
-    }
+    public void removeHumans(Humans h, String s) {
 
-    public void removeHumans(Humans h) {
+        try {
+            int id = Integer.parseInt(s);
+            //пробегаюсь по всем таблицам, если есть совпадение по входящему h
+            //то удаляю из этой таблицы человека с s
+            //и всем ставлю новые номера
+            for (Humans humans : org.getList()) {
+                if ((humans.getNamber().equals(h.getNamber())) &&
+                        ((id > 0) && (id <= humans.getListHum().size()))) {
+                    humans.getListHum().remove(humans.getListHum().get(Integer.parseInt(s) - 1));
+                    int i = 1;
+                    for (Human human : humans.getListHum()) {
+                        human.setId(i++);
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
+        }
     }
 }

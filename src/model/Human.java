@@ -38,8 +38,7 @@ public class Human
         return listSess;
     }
 
-    public void setListSess(List<Session> listSess)
-    {
+    public void setListSess(List<Session> listSess) {
         this.listSess = listSess;
     }
 }

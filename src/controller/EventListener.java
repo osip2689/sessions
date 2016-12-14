@@ -9,6 +9,6 @@ import model.Humans;
 public interface EventListener {
     void createOrganization();
     void addHuman(Humans h);
-    void removeHuman(Humans h);
+    void removeHuman(Humans h, String s);
     void addSession();
 }
