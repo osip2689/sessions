@@ -22,9 +22,11 @@ public class MainField extends JPanel {
     private MainView mainView;
     private MainTableModel tModel;
     private JTable jTable;
+    private JScrollPane jScrollPane;
     private JTableHeader jTableHeader;
-    private JButton btnAdd, btnRemoveTab, btnRemoveHuman;
-    private ActionListener listenerAdd, listenerRemove;
+    private JComboBox comboBox;
+    private JButton btnAdd, btnRemoveTab, btnRemoveHuman, btnCopyHum;
+    private ActionListener listenerAdd, listenerRemove, listenerCopy;
 
     public MainField(final MainView mainView) {
         this.mainView = mainView;
@@ -37,7 +39,7 @@ public class MainField extends JPanel {
         add(labelorg);
 
         // список всех месяцев
-        JComboBox comboBox = new JComboBox(mainView.getController().getModel().getItems());
+        comboBox = new JComboBox(mainView.getController().getModel().getItems());
         comboBox.setEnabled(true);
         comboBox.addActionListener(new ActionListener() {
             @Override
@@ -48,7 +50,7 @@ public class MainField extends JPanel {
                         " | " + item);
                 //если таблица существует - то удаляю и инициализирую снова
                 if (jTable != null) {
-                    remove(jTable);
+                    remove(jScrollPane);
                     remove(jTableHeader);
                 }
                 initTable(item);
@@ -111,17 +113,19 @@ public class MainField extends JPanel {
         btnRemoveTab.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Organization org = mainView.getController().getModel().getOrg();
-                Humans humans = org.getList().get(org.getList().size() - 1);
-                if (org.getList().size() > 0) {
-                    mainView.getController().getModel().getOrg().getList().remove(humans);
-                    comboBox.removeItem(humans.getNamber());
-                }
+                new ConfirmDeleteTabView(mainView.getController());
+                mainView.setEnabled(false);
             }
         });
         btnRemoveTab.setLocation(10, 120);
         btnRemoveTab.setSize(150, 25);
         add(btnRemoveTab);
+
+        //кнопка копирующая учеников из предыдущей таблицы
+        btnCopyHum = new JButton("Копировать");
+        btnCopyHum.setLocation(515, 660);
+        btnCopyHum.setSize(110, 25);
+        add(btnCopyHum);
     }
 
     //метод который рисует таблицу при выборе из списка
@@ -133,18 +137,20 @@ public class MainField extends JPanel {
             if (h.getNamber().equals(item)) {
                 tModel = new MainTableModel(mainView.getController().getModel().getOrg(),h);
                 jTable = new JTable(tModel);
+                jScrollPane = new JScrollPane(jTable);
                 jTableHeader = jTable.getTableHeader();
                 jTableHeader.setLocation(170, 30);
                 jTableHeader.setVisible(true);
                 jTableHeader.setSize(1080, 20);
-                jTable.setSize(1080, 600);
-                jTable.setVisible(true);
-                jTable.setLocation(170, 50);
-                add(jTable);
+                jScrollPane.setSize(1080, 600);
+                jScrollPane.setVisible(true);
+                jScrollPane.setLocation(170, 50);
+                add(jScrollPane);
                 add(jTableHeader);
                 //удаляю прошлое действие кнопкок
                 btnAdd.removeActionListener(listenerAdd);
                 btnRemoveHuman.removeActionListener(listenerRemove);
+                btnCopyHum.removeActionListener(listenerCopy);
 
                 //назначаю новые слушатели для кнопок
                 listenerRemove = new ActionListener() {
@@ -165,7 +171,17 @@ public class MainField extends JPanel {
                         tModel.fireTableStructureChanged();
                     }
                 };
+                listenerCopy = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        mainView.getController().copyLastTable(h);
+                        tModel.fireTableDataChanged();
+                        tModel.fireTableStructureChanged();
+                    }
+                };
 
+                //добавляю необходимый слушатель кнопкам
+                btnCopyHum.addActionListener(listenerCopy);
                 btnAdd.addActionListener(listenerAdd);
                 btnRemoveHuman.addActionListener(listenerRemove);
 
@@ -179,5 +195,9 @@ public class MainField extends JPanel {
 
     public MainTableModel gettModel() {
         return tModel;
+    }
+
+    public JComboBox getComboBox() {
+        return comboBox;
     }
 }

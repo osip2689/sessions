@@ -56,7 +56,6 @@ public class SessRedactorField extends JPanel {
             public void actionPerformed(ActionEvent e)
             {
                 sessRedactorView.getController().addSession();
-                //sessRedactorView.getController().addSessionForAll();
                 tModel.fireTableDataChanged();
             }
         });
@@ -69,7 +68,8 @@ public class SessRedactorField extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-
+                sessRedactorView.getController().removeSession();
+                tModel.fireTableDataChanged();
             }
         });
         btnRemove.setLocation(150, 530);

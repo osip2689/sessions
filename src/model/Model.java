@@ -85,4 +85,23 @@ public class Model {
         } catch (NumberFormatException e) {
         }
     }
+
+    public void removeSession() {
+        for (Humans humans : org.getList()) {
+            for (Human human : humans.getListHum()) {
+                human.getListSess().remove(human.getListSess().size() - 1);
+            }
+        }
+        org.setSessions(org.getList().get(0).getListHum().get(0).getListSess());
+    }
+
+    public void copyLastTable(Humans h) {
+        if ((org.getList().size() > 1) && (org.getList().indexOf(h) != 0)) {
+            h.setListHum(new ArrayList<>());
+            for (Human human : org.getList().get(org.getList().indexOf(h) - 1).getListHum()) {
+                addHuman(h);
+                h.getListHum().get(human.getId() - 1).setName(human.getName());
+            }
+        }
+    }
 }

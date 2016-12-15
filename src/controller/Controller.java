@@ -78,6 +78,16 @@ public class Controller implements EventListener {
         model.addSession();
     }
 
+    @Override
+    public void removeSession() {
+        model.removeSession();
+    }
+
+    @Override
+    public void copyLastTable(Humans h) {
+        model.copyLastTable(h);
+    }
+
     public Model getModel() {
         return model;
     }

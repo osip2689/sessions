@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by Андрей on 09.11.2016.
@@ -70,10 +71,13 @@ public class StartField extends JPanel {
                 startView.getController().getModel().getOrg().setInn(inn.getText());
                 startView.getController().getModel().getOrg().setKpp(kpp.getText());
 
-                java.util.List<Humans> hum = new ArrayList<>();
+                List<Humans> hum = new ArrayList<>();
                 Humans h = new Humans();
-                h.setNamber("11.2016");
+                h.setNamber("10.2016");
                 hum.add(h);
+                Humans h1 = new Humans();
+                h1.setNamber("11.2016");
+                hum.add(h1);
                 startView.getController().getModel().getOrg().setList(hum);
 
                 MainView mainView = new MainView(startView.getController());

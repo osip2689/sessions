@@ -14,11 +14,6 @@ public class Organization {
     private List<Session> sessions = new ArrayList<>();
 
     public List<Humans> list = new ArrayList<>();
-    {
-        /*Humans h = new Humans();
-        h.setNamber("11.2016");
-        list.add(h);*/
-    }
 
     public String getName() {
         return name;

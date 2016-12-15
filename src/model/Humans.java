@@ -28,8 +28,7 @@ public class Humans
         return listHum;
     }
 
-    public void setListHum(List<Human> listHum)
-    {
+    public void setListHum(List<Human> listHum) {
         this.listHum = listHum;
     }
 }
